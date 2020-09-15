@@ -13,12 +13,14 @@
 class Matrix{
     // Give access to private members.
     friend std::ostream& operator << (std::ostream &str, const Matrix& matrix);
+    friend Matrix operator * (const Matrix& matrix1, const Matrix& matrix2);
     friend Matrix operator + (const Matrix& matrix1, const Matrix& matrix2);
 
     public:
         Matrix();
         Matrix(unsigned num_rows, unsigned num_cols);
         Matrix Transpose() const;
+        double SumOfElements() const;
         void Load(const std::string& pathToFile);
 
         // Definition of the () operator overloading - for convenient access to elements.

@@ -6,10 +6,12 @@ int main(){
     Matrix matrix2;
     Matrix transposedMatrix1;
     Matrix addingResult;
+    Matrix multiplicationResult;
+    double sumOfElements;
 
     // Load matrices from a given files.
-    matrix1.Load("/.../matrix_a.txt");
-    matrix2.Load("/.../matrix_b.txt");
+    matrix1.Load("/home/anita/Pulpit/matrix_calculations/matrix_a.txt");
+    matrix2.Load("/home/anita/Pulpit/matrix_calculations/matrix_b.txt");
 
     std::cout << matrix1 << std::endl;
     std:: cout << matrix2 << std::endl;
@@ -20,4 +22,9 @@ int main(){
     addingResult = matrix1 + matrix2;
     std::cout << addingResult << std::endl;
 
+    multiplicationResult = matrix1 * matrix2;
+    std::cout << multiplicationResult << std::endl;
+
+    sumOfElements = matrix1.SumOfElements();
+    std::cout << sumOfElements << std::endl;
 }

@@ -68,6 +68,24 @@ Matrix Matrix::Transpose() const{
     return transpose_result;
 }
 
+// Sum of elements.
+double Matrix::SumOfElements() const{
+    double sumOfElements = 0;
+
+    for(unsigned row = 0; row < this->matrix.size(); ++row)
+        for(unsigned  col = 0; col < this->matrix[0].size(); ++col)
+            sumOfElements += matrix[row][col];
+
+    return sumOfElements;
+}
+
+// #TODO: Determinant.
+/*
+double Matrix::Determinant() const{
+    if(this->matrix.size() != this->matrix[0].size())
+        throw "Invalid matrix shape to compute a determinant for a given matrix.";
+}
+*/
 
 /* ##########################################################################
  * Operator overloading
@@ -88,8 +106,7 @@ std::ostream& operator << (std::ostream &str, const Matrix& matrix){
 }
 
 // Overload + operator.
-Matrix operator + (const Matrix& matrix1, const Matrix& matrix2)
-{
+Matrix operator + (const Matrix& matrix1, const Matrix& matrix2){
     if(matrix1.matrix.size() != matrix2.matrix.size())
         throw "Incompatible matrices dimensions - adding impossible.";
     if(matrix1.matrix[0].size() != matrix2.matrix[0].size())
@@ -102,4 +119,24 @@ Matrix operator + (const Matrix& matrix1, const Matrix& matrix2)
             additionResult(idx1, idx2) = matrix1.matrix[idx1][idx2] + matrix2.matrix[idx1][idx2];
 
     return additionResult;
+}
+
+// Overload * operator to do matrices multiplication.
+Matrix operator * (const Matrix& matrix1, const Matrix& matrix2) {
+    if (matrix1.matrix.size() != matrix2.matrix[0].size())
+        throw "Incompatibile matrices dimensions - multiplication impossible.";
+
+    Matrix multiplicationResult(matrix1.matrix.size(), matrix2.matrix[0].size());
+
+    for(unsigned idx0 = 0; idx0 < matrix2.matrix[0].size(); ++idx0){
+        for(unsigned idx1 = 0; idx1 < matrix1.matrix.size(); ++idx1){
+            double helperSum = 0;
+
+            for(unsigned idx2 = 0; idx2 < matrix1.matrix[0].size(); ++idx2)
+                helperSum += matrix1.matrix[idx1][idx2] * matrix2.matrix[idx2][idx0];
+
+            multiplicationResult(idx1, idx0) = helperSum;
+        }
+    }
+    return multiplicationResult;
 }
