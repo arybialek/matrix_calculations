@@ -8,6 +8,7 @@ int main(){
     Matrix addingResult;
     Matrix multiplicationResult;
     double sumOfElements;
+    double determinant;
 
     // Load matrices from a given files.
     matrix1.Load("/home/anita/Pulpit/matrix_calculations/matrix_a.txt");
@@ -27,4 +28,8 @@ int main(){
 
     sumOfElements = matrix1.SumOfElements();
     std::cout << sumOfElements << std::endl;
+
+    determinant = matrix1.Determinant();
+    std::cout << determinant << std::endl;
+
 }

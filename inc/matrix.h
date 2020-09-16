@@ -19,7 +19,9 @@ class Matrix{
     public:
         Matrix();
         Matrix(unsigned num_rows, unsigned num_cols);
+        Matrix(const Matrix& original); // Copy constructor.
         Matrix Transpose() const;
+        double Determinant() const;
         double SumOfElements() const;
         void Load(const std::string& pathToFile);
 

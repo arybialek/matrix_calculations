@@ -4,6 +4,7 @@
  */
 
 #include <iostream>
+#include <cmath>
 #include <fstream>
 #include "../inc/matrix.h"
 
@@ -21,6 +22,19 @@ Matrix::Matrix(unsigned num_rows, unsigned num_cols){
             row.push_back(0.0); // append 0.0 at the end of a row
 
         matrix.push_back(row); // add a new row to the matrix
+    }
+}
+
+Matrix::Matrix(const Matrix& original)
+{
+    for(unsigned idx1 = 0; idx1 < original.matrix.size(); ++idx1)
+    {
+        std::vector<double> tmpRow; // empty row for data storage
+
+        for(unsigned idx2 = 0; idx2 < original.matrix[0].size(); ++idx2)
+            tmpRow.push_back(original(idx1,idx2));
+
+        matrix.push_back(tmpRow); // add new row to the matrix
     }
 }
 
@@ -79,13 +93,39 @@ double Matrix::SumOfElements() const{
     return sumOfElements;
 }
 
-// #TODO: Determinant.
-/*
+// Determinant.
 double Matrix::Determinant() const{
+
     if(this->matrix.size() != this->matrix[0].size())
         throw "Invalid matrix shape to compute a determinant for a given matrix.";
+
+    if(this->matrix.size() == 1 and this->matrix[0].size() == 1)
+        return matrix[0][0];
+
+    if(this->matrix.size() == 2 and this->matrix[0].size() == 2)
+        return (this->matrix[0][0] * this->matrix[1][1]) - (this->matrix[1][0] * this->matrix[0][1]);
+
+    // Iterate over every element of the first row.
+    int sign = 1;
+    double result = 0;
+    for(unsigned element_idx = 0; element_idx < this->matrix[0].size(); ++element_idx){
+        Matrix subMatrix;
+        for(unsigned row_idx = 1; row_idx < this->matrix.size(); ++row_idx){
+            std::vector<double> tmpRow;
+            for(unsigned col_idx = 0; col_idx < this->matrix[0].size(); ++col_idx){
+                if(col_idx != element_idx)
+                    tmpRow.push_back(this->matrix[row_idx][col_idx]);
+            }
+            subMatrix.matrix.push_back(tmpRow);
+        }
+
+        double det = subMatrix.Determinant();
+        result += this->matrix[0][element_idx] * sign * det;
+        sign *= -1;
+    }
+    return result;
 }
-*/
+
 
 /* ##########################################################################
  * Operator overloading
