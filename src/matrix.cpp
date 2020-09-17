@@ -50,14 +50,12 @@ void Matrix::Load(const std::string& pathToFile){
 
     if(!file){
         // If file does not exist or if there is an error with opening the file.
-        std::cerr << "Error when opening matrix file.\n";
-        return;
+        throw std::invalid_argument("Error when opening matrix file.\n");
     }
 
     file >> row >> col; // Read matrix dimensions.
     if(row < 1 || col < 1){
-        std::cerr << "Matrix sizes are out of bounds.\n";
-        return;
+        throw std::invalid_argument("Matrix sizes are out of bounds.\n");
     }
 
     // Allocate a matrix with a proper size.
@@ -97,7 +95,7 @@ double Matrix::SumOfElements() const{
 double Matrix::Determinant() const{
 
     if(this->matrix.size() != this->matrix[0].size())
-        throw "Invalid matrix shape to compute a determinant for a given matrix.";
+        throw std::invalid_argument("Invalid matrix shape to compute a determinant for a given matrix.");
 
     if(this->matrix.size() == 1 and this->matrix[0].size() == 1)
         return matrix[0][0];
@@ -148,9 +146,9 @@ std::ostream& operator << (std::ostream &str, const Matrix& matrix){
 // Overload + operator.
 Matrix operator + (const Matrix& matrix1, const Matrix& matrix2){
     if(matrix1.matrix.size() != matrix2.matrix.size())
-        throw "Incompatible matrices dimensions - adding impossible.";
+        throw std::invalid_argument("Incompatible matrices dimensions - adding impossible.");
     if(matrix1.matrix[0].size() != matrix2.matrix[0].size())
-        throw "Incompatible matrices dimensions - adding impossible.";
+        throw std::invalid_argument("Incompatible matrices dimensions - adding impossible.");
 
     Matrix additionResult(matrix1.matrix.size(), matrix1.matrix[0].size());
 
@@ -164,7 +162,7 @@ Matrix operator + (const Matrix& matrix1, const Matrix& matrix2){
 // Overload * operator to do matrices multiplication.
 Matrix operator * (const Matrix& matrix1, const Matrix& matrix2) {
     if (matrix1.matrix.size() != matrix2.matrix[0].size())
-        throw "Incompatibile matrices dimensions - multiplication impossible.";
+        throw std::invalid_argument("Incompatible matrices dimensions - multiplication impossible.");
 
     Matrix multiplicationResult(matrix1.matrix.size(), matrix2.matrix[0].size());
 
